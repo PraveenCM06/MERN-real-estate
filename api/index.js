@@ -7,7 +7,7 @@ import authRouter from './routes/auth.route.js';
 
 dotenv.config();
 mongoose.connect(process.env.MONGO).then(()=>{
-    console.log("Connected to DB");
+    console.log("Connected to Mongo DB");
 }).catch(error=>{
     console.log(error);
     console.error("BAD AUTHENTICATION!!");
@@ -20,5 +20,20 @@ app.listen(port, ()=>{
     console.log(`listening on port number ${port}`);
 })
 
-app.use('/api/user', userRouter);
+//if url has /user after api  then it will use the middleware of userRouter
+app.use('/api/user', userRouter); 
+//if url has  /auth after api  then it will use the middleware of authRouter
 app.use('/api/auth', authRouter);
+
+//creating middleware for exception handling for multiple routes, 
+//This is Good way instead of writing try catch block everywhere
+app.use((error, request, response, next)=>{
+    const statusCode = error.statusCode || 500;
+const message = error.message || 'Internal Server Error';
+return response.status(statusCode).json({
+    success:false,
+    statusCode,
+    message
+});
+});
+
