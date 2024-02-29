@@ -16,7 +16,7 @@ function Header() {
         <ul className='flex gap-4'>
             <li className='hidden font-medium sm:inline text-slate-800 hover:font-semibold'><Link to='/'>Home</Link></li>
             <li className='text-slate-800 font-medium hover:font-semibold'><Link to='/about'>About</Link></li>
-            <li className='text-slate-800 font-medium hover:font-semibold'><Link to='/sign-in'>Sign In</Link></li>
+            <li className='text-slate-800 font-medium hover:font-semibold'><Link to='/signin'>Sign In</Link></li>
         </ul>
         </div>
 
