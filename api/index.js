@@ -1,7 +1,7 @@
 import express from 'express';
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
-import { log } from 'console';
+import userRouter from './routes/user.route.js';
 
 dotenv.config();
 mongoose.connect(process.env.MONGO).then(()=>{
@@ -17,3 +17,5 @@ const app = express();
 app.listen(port, ()=>{
     console.log(`listening on port number ${port}`);
 })
+
+app.use('/api/user', userRouter)
