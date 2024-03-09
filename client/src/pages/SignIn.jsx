@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import {Link, useNavigate} from 'react-router-dom';
 import {useDispatch, useSelector} from 'react-redux';
 import {signInStart, signInSuccess, signInFailure} from '../redux/user/userSlice.js';
+import OAuth from '../components/OAuth.jsx';
 function SignIn() {
   const [formData, setFormData] = useState({});
   const {loading, error}= useSelector((state)=>state.user);
@@ -57,11 +58,12 @@ function SignIn() {
       />
       <button
         disabled = {loading}
-        className='bg-slate-700 text-white uppercase p-3 rounded-lg hover:opacity-90 hover:-translate-y-0.5 transition-all disabled:opacity-50'
+        className='bg-slate-700 text-white uppercase p-3 rounded-lg hover:opacity-90 transition-all disabled:opacity-50'
       >{loading? 'loading..' : 'Sign In'}</button>
-      <button
+      {/* <button
         className='bg-red-700 text-white p-3 rounded-lg hover:opacity-90 hover:-translate-y-0.5 transition-all disabled:opacity-50'
-      >Continue with Google</button>
+      >Continue with Google</button> */}
+      <OAuth/>
     </form>
       <div className='flex gap-2 mt-5'>
         <p>New here? </p>
