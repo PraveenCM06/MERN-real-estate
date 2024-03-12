@@ -18,7 +18,7 @@ function Header() {
         <ul className='flex gap-4'>
             <li className='hidden font-medium sm:inline text-slate-800 hover:font-semibold'><Link to='/'>Home</Link></li>
             <li className='text-slate-800 font-medium hover:font-semibold'><Link to='/about'>About</Link></li>
-            <Link to="/signin">
+            <Link to="/profile">
               { currentUser ? 
                   (<img className='rounded-full h-7 w-7 object-cover' src={currentUser.photo} alt="profileimg" />) 
                     : 

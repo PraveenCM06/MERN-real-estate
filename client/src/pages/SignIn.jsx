@@ -30,7 +30,6 @@ function SignIn() {
         return;
       }
       dispatch(signInSuccess(data));
-      navigate('/')
       alert("Sign in Successful")
     } catch (error) {
       dispatch(signInFailure(error.message));
