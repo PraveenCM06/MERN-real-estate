@@ -30,7 +30,8 @@ function SignIn() {
         return;
       }
       dispatch(signInSuccess(data));
-      alert("Sign in Successful")
+      alert("Sign in Successful");
+      navigate('/');
     } catch (error) {
       dispatch(signInFailure(error.message));
     }
