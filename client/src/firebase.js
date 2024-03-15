@@ -4,6 +4,7 @@ import { initializeApp } from "firebase/app";
 // https://firebase.google.com/docs/web/setup#available-libraries
 
 // Your web app's Firebase configuration
+//VITE_FIREBASE_API_KEY = "AIzaSyD5JFQSVrWJYMqMaW33eEgkQY2ACRwRt1U"
 const firebaseConfig = {
   apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
   authDomain: "mern-real-estate-f5702.firebaseapp.com",
