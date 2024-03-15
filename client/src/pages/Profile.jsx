@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
   getDownloadURL,
   getStorage,
@@ -7,16 +7,18 @@ import {
   uploadBytesResumable,
 } from "firebase/storage";
 import { app } from "../firebase.js";
-
+import { updateUserStart, updateUserSuccess, updateUserFailure } from '../redux/user/userSlice.js' ;
+import ToasterUi from 'toaster-ui';
 function Profile() {
-  const { currentUser } = useSelector((state) => state.user);
+  const { currentUser, loading, error } = useSelector((state) => state.user);
   const fileref = useRef(null);
   const [file, setFile] = useState(undefined);
   //console.log(file);
   const [filePercentage, setFilePercentage] = useState(0);
   const [fileUploadError, setFileUploadError] = useState(false);
   const [formData, setFormData] = useState({});
-
+  const dispatch = useDispatch();
+  const toaster = new ToasterUi();
   useEffect(() => {
     if (file) {
       handleFileUpload(file);
@@ -51,10 +53,36 @@ function Profile() {
     );
   };
 
+  const handleChange = (e)=>{
+    setFormData({...formData, [e.target.id]:e.target.value});
+  }
+
+  const handleSubmit = async (e)=>{
+    e.preventDefault();
+    try {
+      dispatch(updateUserStart());
+      const configuration = {
+        method: "POST",
+        headers: {"Content-Type":"application/json"},
+        body:JSON.stringify(formData),
+      }
+      const response = await fetch(`/api/user/update/${currentUser._id}`, configuration);
+      const data= await response.json();
+      if(data.success === false){
+        dispatch(updateUserFailure(data.message));
+        return;
+      }
+
+      dispatch(updateUserSuccess(data));
+      toaster.addToast("Success", "success", { duration: 4000 });
+    } catch (error) {
+      dispatch(updateUserFailure(error.message));
+    }
+  }
   return (
     <div className="p-3 max-w-lg mx-auto">
       <h1 className="text-3xl font-semibold text-center my-7">Profile</h1>
-      <form className="flex flex-col gap-4">
+      <form onSubmit={handleSubmit} className="flex flex-col gap-4">
         <input
           type="file"
           ref={fileref}
@@ -67,6 +95,7 @@ function Profile() {
           className="mt-2 rounded-full h-24 w-24 object-cover cursor-pointer self-center"
           src={formData.photo || currentUser.photo}
           alt="profile"
+          onChange={handleChange}
         />
         <p className="text-sm self-center">
           {/*conditional rendering - condtionally rendered Data, basically it is an if-else-if condition*/}
@@ -87,21 +116,26 @@ function Profile() {
           placeholder="username"
           id="username"
           className="border p-3 rounded-lg"
+          defaultValue={currentUser.username}
+          onChange={handleChange}
         />
         <input
           type="email"
           placeholder="email"
           id="email"
           className="border p-3 rounded-lg"
+          defaultValue={currentUser.email}
+          onChange={handleChange}
         />
         <input
-          type="text"
+          type="password"
           placeholder="password"
           id="password"
           className="border p-3 rounded-lg"
+          onChange={handleChange}
         />
-        <button className="bg-slate-700 text-white rounded-lg p-3 uppercase hover:opacity-95 disabled:opacity-50">
-          Update
+        <button disabled={loading} className="bg-slate-700 text-white rounded-lg p-3 uppercase hover:opacity-95 disabled:opacity-50">
+          {loading? 'Loading..': "Update"}
         </button>
       </form>
       <div className="flex justify-between mt-5">
@@ -112,6 +146,7 @@ function Profile() {
           Sign Out
         </span>
       </div>
+      <p className="text-red-700 mt-5">{error? error : ""}</p>
     </div>
   );
 }
