@@ -4,7 +4,7 @@ import dotenv from 'dotenv';
 import userRouter from './routes/user.route.js';
 import authRouter from './routes/auth.route.js';
 import cookieParser from 'cookie-parser';
-
+import listingRouter from './routes/listing.route.js'
 dotenv.config();
 mongoose.connect(process.env.MONGO).then(()=>{
     console.log("Connected to Mongo DB");
@@ -27,6 +27,7 @@ app.listen(port, ()=>{
 app.use('/api/user', userRouter); 
 //if url has  /auth after api  then it will use the middleware of authRouter
 app.use('/api/auth', authRouter);
+app.use('/api/listing', listingRouter);
 
 //creating middleware for exception handling for multiple routes, 
 //This is Good way instead of writing try catch block everywhere

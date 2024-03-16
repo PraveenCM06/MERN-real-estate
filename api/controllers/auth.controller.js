@@ -4,9 +4,7 @@ import { errorHandler } from "../utils/error.js";
 import jwt from "jsonwebtoken";
 
 export const signUp = async (req, res, next) => {
-  console.log(req.body);
   const { username, email, password } = req.body;
-
   const hashedPassword = bcryptjs.hashSync(password, 10);
   //Creating new Entry with input we got
   const newUser = new User({ username, email, password: hashedPassword });
@@ -78,7 +76,6 @@ export const google = async (req,res,next)=>{
       const token = jwt.sign({id:newUser._id}, process.env.JWT_SECRET)
       const {password:pass, ...rest} = newUser._doc;
       res.cookie('access_token', token, {httpOnly:true}).status(200).json(rest);
-      console.log("signin Success");
     }
   } catch (error) {
     next(error)
