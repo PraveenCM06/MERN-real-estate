@@ -1,6 +1,74 @@
-import React from "react";
-
+import React, { useState } from "react";
+import {getDownloadURL, getStorage, ref, uploadBytesResumable} from 'firebase/storage';
+import {app} from '../firebase.js'
 function CreateListing() {
+  const [files, setFiles] = useState([]);
+  const [formData, setFormData] = useState({
+    imageURLs:[],
+  });
+
+  const [imageUploadError, setImageUploadError] = useState(false);
+  // console.log(formData);
+  const[uploading, setUploading] = useState(false);
+
+  const handleImageSubmit = (e) => {
+    if(files.length>0 && files.length + formData.imageURLs.length < 7){
+      setUploading(true);
+      setImageUploadError(false);
+        const promises =  [];
+
+        for(let i=0; i<files.length; i++){
+          promises.push(storeImage(files[i]));
+        }
+
+        Promise.all(promises).then((urls)=>{
+          setFormData({...formData, imageURLs: formData.imageURLs.concat(urls)});
+          setImageUploadError(false);
+          setUploading(false);
+        }).catch((err)=>{
+          setImageUploadError('Image upload error, please check images before uploading');
+          setUploading(false);
+        });
+    } else if(files.length==0 && files.length + formData.imageURLs.length ==0){
+      setImageUploadError("Please upload images");
+      setUploading(false);
+    }
+    else{
+      setImageUploadError("upto 6 images allowed per listing");
+      setUploading(false);
+    }
+  };
+
+  const storeImage = async (file)=>{
+      return new Promise((resolve, reject)=>{
+        const storage = getStorage(app);
+        const fileName =new Date().getTime + file.name;
+        const storageRef = ref(storage, fileName);
+        const uploadTask = uploadBytesResumable(storageRef, file);
+        uploadTask.on(
+          'state_changed',
+          (snapshot)=>{
+            const progress = (snapshot.bytesTransferred/ snapshot.totalBytes)*100;
+            console.log(`Upload is ${progress}% done`);
+          },
+          (error)=>{
+            reject(error);
+          },
+          ()=>{
+            getDownloadURL(uploadTask.snapshot.ref).then((downlaodURL)=>{
+                resolve(downlaodURL);  
+            });
+          }
+        );
+      })
+  };
+
+  const handleRemoveImage =(index)=>{
+    setFormData({
+      ...formData,
+      imageURLs:formData.imageURLs.filter((url, i)=>i !==index)
+    });
+  }
   return (
     <main className="p-3 max-w-6xl mx-auto">
       <h1 className="text-3xl font-semibold text-center my-7">
@@ -36,7 +104,7 @@ function CreateListing() {
             className="border p-3 rounded-lg"
             type="text"
             placeholder="landmark"
-            maxLength="20"
+            maxLength="40"
             required
           />
           <input
@@ -47,7 +115,7 @@ function CreateListing() {
             maxLength="30"
             required
           />
-          <select className="border p-3 rounded-lg" name="state" id="state">
+          <select defaultValue='state' className="border p-3 rounded-lg" name="state" id="state">
             <option value="disable" selected disabled>
               state
             </option>
@@ -99,34 +167,81 @@ function CreateListing() {
             </optgroup>
           </select>
           <div className="flex gap-7 flex-wrap">
-            <div className="flex gap-2"> 
-              <input required  type="checkbox" id="sell" className="w-5 hover:cursor-pointer"/>
-              <label for="sell" className="hover:cursor-pointer">Sell</label>
+            <div className="flex gap-2">
+              <input
+                required
+                type="checkbox"
+                id="sell"
+                className="w-5 hover:cursor-pointer"
+              />
+              <label for="sell" className="hover:cursor-pointer">
+                Sell
+              </label>
             </div>
-            <div className="flex gap-2"> 
-              <input required  type="checkbox" id="rent" className="w-5 hover:cursor-pointer"/>
-              <label for="rent" className="hover:cursor-pointer">Rent</label>
+            <div className="flex gap-2">
+              <input
+                required
+                type="checkbox"
+                id="rent"
+                className="w-5 hover:cursor-pointer"
+              />
+              <label for="rent" className="hover:cursor-pointer">
+                Rent
+              </label>
             </div>
-            <div className="flex gap-2"> 
-              <input required type="checkbox" id="parking" className="w-5 hover:cursor-pointer"/>
-              <label for="parking" className="hover:cursor-pointer">Parking Spot</label>
+            <div className="flex gap-2">
+              <input
+                required
+                type="checkbox"
+                id="parking"
+                className="w-5 hover:cursor-pointer"
+              />
+              <label for="parking" className="hover:cursor-pointer">
+                Parking Spot
+              </label>
             </div>
-            <div className="flex gap-2"> 
-              <input required type="checkbox" id="furnished" className="w-5 hover:cursor-pointer"/>
-              <label for="furnished" className="hover:cursor-pointer">Furnished</label>
+            <div className="flex gap-2">
+              <input
+                required
+                type="checkbox"
+                id="furnished"
+                className="w-5 hover:cursor-pointer"
+              />
+              <label for="furnished" className="hover:cursor-pointer">
+                Furnished
+              </label>
             </div>
           </div>
           <div className="flex gap-6 flex-wrap">
             <div className="flex gap-2 items-center">
-              <input className="p-3 border rounded-lg" required type="number" id="bedrooms" min='1' max='5'/>
+              <input
+                className="p-3 border rounded-lg"
+                required
+                type="number"
+                id="bedrooms"
+                min="1"
+                max="5"
+              />
               <label htmlFor="bedrooms">Bed Rooms</label>
             </div>
             <div className="flex gap-2 items-center">
-              <input className="p-3 border rounded-lg" required type="number" id="bathrooms" min='1' max='5'/>
+              <input
+                className="p-3 border rounded-lg"
+                required
+                type="number"
+                id="bathrooms"
+                min="1"
+                max="5"
+              />
               <label htmlFor="bathrooms">Bath Rooms</label>
             </div>
             <div className="flex gap-2 items-center">
-              <input className="p-3 border rounded-lg w-24" required type="number" id="askingprice"/>
+              <input
+                className="p-3 border rounded-lg w-24"
+                required
+                type="number"
+                id="askingprice"
+              />
               <div className="flex flex-col">
                 <label htmlFor="askingprice">Price</label>
                 <span className="text-xs">(₹ / month)</span>
@@ -135,12 +250,42 @@ function CreateListing() {
           </div>
         </div>
         <div className="flex flex-col flex-1 gap-4">
-          <p className="font-semibold ">Images: <span className="text-sm text-gray-500 ml-2">The first image will be selected for cover image (max 6 images)</span> </p>
+          <p className="font-semibold ">
+            Images:{" "}
+            <span className="text-sm text-gray-500 ml-1 font-light">
+              The first image will be selected for cover image (max 6 images)
+            </span>{" "}
+          </p>
           <div className="flex gap-2">
-            <input className="p-3 border border-gray-300 rounded-lg w-full" type="file" id="images" accept="image/*" multiple/>
-            <button className="p-3 text-blue-950 border border-blue-950 rounded-lg uppercase hover:shadow-lg disabled:opacity-65">upload</button>
+            <input
+              className="p-3 border border-gray-300 rounded-lg w-full"
+              type="file"
+              id="images"
+              accept="image/*"
+              multiple
+              onChange={(e) => setFiles(e.target.files)}
+            />
+            <button
+              type="button"
+              onClick={handleImageSubmit}
+              className="p-3 text-blue-950 border border-blue-950 rounded-lg uppercase hover:shadow-2xl hover:bg-blue-950 hover:text-white active:opacity-70 transition-all ease disabled:opacity-65"
+              disabled={uploading}
+            >
+              {uploading? 'Uploading': 'upload'}
+            </button>
           </div>
-        <button className="p-3 bg-slate-700 text-white rounded-lg uppercase hover:opacity-95 disabled:opacity-60">Publish Listing</button>
+          <p className="text-red-700 text-sm font-semibold ml-2">{imageUploadError && imageUploadError }</p>
+          {
+            formData.imageURLs.length > 0 && formData.imageURLs.map((url, index)=>(
+              <div key={url} className="flex justify-between p-3 border border-zinc-300  items-center rounded-lg" >
+                <img src={url} alt="listing image" className="w-28 h-25 object-contain rounded-lg"/>
+                <button onClick={() => handleRemoveImage(index)} type="button" className="p-2 text-sm text-red-700 border border-red-700 rounded-lg hover:bg-red-700 hover:text-white active:opacity-80">Delete</button>
+              </div>
+            ))
+          }
+          <button className="p-3 bg-blue-950 text-white rounded-lg uppercase hover:opacity-95 disabled:opacity-60">
+            Publish Listing
+          </button>
         </div>
       </form>
     </main>
