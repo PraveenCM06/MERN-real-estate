@@ -53,10 +53,6 @@ const listingSchema = new mongoose.Schema({
         type:Array,
         required:true
     },
-    user:{
-        type:String,
-        required:true
-    }
 }, {timestamps:true})
 
 const Listing = mongoose.model('Listing', listingSchema);
