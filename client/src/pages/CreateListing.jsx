@@ -22,6 +22,7 @@ function CreateListing() {
     parking:false,
     type:'rent',
     imageURLs:[],
+    
   });
   const [imageUploadError, setImageUploadError] = useState(false);
   // console.log(formData);
