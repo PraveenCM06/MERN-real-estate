@@ -134,7 +134,7 @@ const [userListings, setUserListings] = useState([]);
 
   const handleListingDelete = async (listingId)=>{
     try {
-      const result = await fetch(`/api/listing/delete${listingId}`,{
+      const result = await fetch(`/api/listing/delete/${listingId}`,{
         method:'DELETE',
       });
       const data = await result.json();

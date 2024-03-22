@@ -28,3 +28,24 @@ export const deleteListing = async (request, response, next)=>{
         next(error);
     }
 };
+
+export const editListing = async (request, response, next)=>{
+    const listing = await Listing.findById(request.params.id);
+    if(!listing){
+        return next(errorHandler(404, "listing not found"));
+    }
+
+    if(request.user.id !== listing.userRef){
+        return next(errorHandler(401, 'You can only delete your own listings!'));
+    }
+    try {
+        const editedListing = await Listing.findByIdAndUpdate(
+            request.params.id,
+            request.body,
+            {new: true}
+        );
+        response.status(200).json(editedListing);
+    } catch (error) {
+        next(error);
+    }
+}
