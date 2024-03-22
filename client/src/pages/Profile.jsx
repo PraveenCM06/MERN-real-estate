@@ -120,7 +120,7 @@ const [userListings, setUserListings] = useState([]);
   const handleShowListings = async ()=>{
     try {
       setShowListingError(false);
-      const res = await fetch(`/api/user/listings/${currentUser._id}`);
+      const res = await fetch(`/api/user/userlistings/${currentUser._id}`);
       const data = await res.json();
       if(data.success===false){
         setShowListingError(true);
@@ -234,7 +234,9 @@ const [userListings, setUserListings] = useState([]);
               </Link>
               <div className="flex flex-col gap-1">
                 <button onClick={()=>handleListingDelete(listing._id)} className="text-red-700 uppercase text-sm hover:bg-red-700 hover:text-white p-2 rounded-lg font-semibold">Delete</button>
+                <Link to={`/edit-listing/${listing._id}`}>
                 <button className="text-blue-950 uppercase text-sm hover:bg-blue-950 hover:text-white p-2 rounded-lg font-semibold">Edit</button>
+                </Link>
               </div>
             </div>
           ))}

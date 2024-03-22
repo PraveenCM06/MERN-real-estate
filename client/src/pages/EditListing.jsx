@@ -1,12 +1,13 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {getDownloadURL, getStorage, ref, uploadBytesResumable} from 'firebase/storage';
 import {app} from '../firebase.js'
 import {useSelector} from 'react-redux';
 import ToasterUi from 'toaster-ui';
-import { useNavigate } from "react-router-dom";
+import { useNavigate,useParams } from "react-router-dom";
 
 
 function CreateListing() {
+
   const [files, setFiles] = useState([]);
   const [formData, setFormData] = useState({
     name:'',
@@ -22,6 +23,7 @@ function CreateListing() {
     parking:false,
     type:'rent',
     imageURLs:[],
+    
   });
   const [imageUploadError, setImageUploadError] = useState(false);
   // console.log(formData);
@@ -31,7 +33,21 @@ function CreateListing() {
   const {currentUser} = useSelector(state=>state.user);
   const toaster = new ToasterUi();
   const navigate= useNavigate();
+  const params = useParams();
+  useEffect(()=>{
+    const fetchListing = async ()=>{
+        const listingId = params.listingId;
+        const res = await fetch(`/api/listing/getlisting/${listingId}`);
+        const data= await res.json();
+        if(data.success ===false){
+            console.log(data.message);
+            return;
+        }
+        setFormData(data);
+    }
 
+    fetchListing();
+  },[]);
 
   const handleImageSubmit = (e) => {
     if(files.length>0 && files.length + formData.imageURLs.length < 7){
@@ -115,13 +131,13 @@ function CreateListing() {
       })
     }
   };
+
   const handleFormSubmit =async (e)=>{
     e.preventDefault();
     try {
       if(formData.imageURLs.length<1){
         return setError('Please upload atleast one Image for cover image')
       }
-      
       setLoading(true);
       setError(false);
       const config ={
@@ -134,7 +150,7 @@ function CreateListing() {
           userRef:currentUser._id
         })
       }
-      const response = await fetch('/api/listing/create', config);
+      const response = await fetch(`/api/listing/edit/${params.listingId}`, config);
       const data = await response.json();
       setLoading(false);
       toaster.addToast("Success", "success", { duration: 4000 });
@@ -150,7 +166,7 @@ function CreateListing() {
   return (
     <main className="p-3 max-w-6xl mx-auto">
       <h1 className="text-3xl font-semibold text-center my-7">
-        Create a new Listing
+        Edit Listing
       </h1>
       <form onSubmit={handleFormSubmit} className="flex flex-col sm:flex-row gap-4">
         <div className="flex flex-col gap-4 flex-1">
@@ -386,7 +402,7 @@ function CreateListing() {
             ))
           }
           <button disabled={loading || uploading} className="tracking-wider p-3 bg-blue-950 text-white rounded-lg uppercase hover:opacity-95 disabled:opacity-60">
-            {loading? 'creating..':'create listing'}
+            {loading? 'creating..':'update listing'}
           </button>
           {error && <p className="text-red-700 text-sm">{error}</p>}
         </div>
