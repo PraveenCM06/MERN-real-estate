@@ -45,8 +45,8 @@ function Home() {
   return (
     <div>
       {/* section 1 */}
-      <div className="flex flex-col gap-4 sm:gap-6 py-28 px-5 max-w-6xl mx-auto">
-        <h1 className='text-slate-600 text-3xl sm:text-4xl lg:text-6xl font-bold'>Find your next <span className='text-slate-800'>perfect home</span> <br /> with ease </h1>
+      <div style={{background:'url(https://img.freepik.com/free-photo/perspective-exterior-nobody-empty-box_1258-260.jpg?w=996&t=st=1711637514~exp=1711638114~hmac=f2c6ff9c0c35908548e9509542f15bacf5697983214d9357619975cd5d53c1ba) no-repeat' , backgroundSize:'cover', backgroundPosition:'center'}} className="flex flex-col gap-4 sm:gap-6 py-16 sm:py-20 md:py-28 px-5 sm:px-14 md:px-20 mx-auto">
+        <h1 className='text-slate-600 text-3xl sm:text-4xl lg:text-6xl font-bold'>Find your next <span className='text-slate-800 whitespace-nowrap font-bold'>perfect home</span> <br /> with ease </h1>
         <div className="text-gray-500 text-xs sm:text-sm">
             we will help your home finding journey a lot more easier, faster and comfortable <br /> with our wide range of properties to choose from.
         </div>
@@ -68,11 +68,11 @@ function Home() {
       <div className="max-w-6xl mx-auto p-3 flex flex-col gap-7 my-10">
         {allListings && allListings.length>0 && (
           <div className="">
-              <div className="">
+              <div className="my-4 p-3">
                 <h2 className='text-xl font-semibold text-slate-700'>All Listings</h2>
                 <Link to={'/search'} className='text-xs text-blue-600'>show all listings</Link>
               </div>
-              <div className="flex flex-wrap gap-4">
+              <div className="flex flex-wrap gap-4 justify-center">
                 {allListings.map((listing)=>(
                   <ListingCard listing={listing} key={listing._id}/>
                 ))}
@@ -83,11 +83,11 @@ function Home() {
       <div className="max-w-6xl mx-auto p-3 flex flex-col gap-7 my-10">
         {rentListings && rentListings.length>0 && (
           <div className="">
-              <div className="">
+              <div className="my-4 p-3">
                 <h2 className='text-xl font-semibold text-slate-700'>Rental properties</h2>
                 <Link to={'/search?type=rent'} className='text-xs text-blue-600'>show rental properties</Link>
               </div>
-              <div className="flex flex-wrap gap-4">
+              <div className="flex flex-wrap gap-4 justify-center">
                 {rentListings.map((listing)=>(
                   <ListingCard listing={listing} key={listing._id}/>
                 ))}
@@ -98,11 +98,11 @@ function Home() {
       <div className="max-w-6xl mx-auto p-3 flex flex-col gap-7 my-10">
         {saleListings && saleListings.length>0 && (
           <div className="">
-              <div className="">
+              <div className="my-4 p-3">
                 <h2 className='text-xl font-semibold text-slate-700'>Properties for Sale</h2>
                 <Link to={'/search?type=sell'} className='text-xs text-blue-600'>show properties for sale</Link>
               </div>
-              <div className="flex flex-wrap gap-4">
+              <div className="flex flex-wrap gap-4 justify-center">
                 {saleListings.map((listing)=>(
                   <ListingCard listing={listing} key={listing._id}/>
                 ))}

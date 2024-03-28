@@ -22,7 +22,7 @@ const navigate =useNavigate();
     }
   },[location.search])
   return (
-    <header className="bg-slate-200 shadow-md">
+    <header className="bg-transparent backdrop-blur-lg sticky top-0 shadow-md z-[1000]">
       <div className="flex justify-between items-center max-w-6xl mx-auto p-3">
        <Link to='/'> 
         <h1 className="font-bold text-sm sm:text-xl flex flex-wrap">
