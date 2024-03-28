@@ -63,7 +63,7 @@ function Search() {
     if (
       e.target.id === "all" ||
       e.target.id === "rent" ||
-      e.target.id === "sale"
+      e.target.id === "sell"
     ) {
       setSidebarData({ ...sidebarData, type: e.target.id });
     }
@@ -156,10 +156,10 @@ function Search() {
             <div className="flex gap-2">
               <input
                 type="checkbox"
-                id="sale"
+                id="sell"
                 className="w-5"
                 onChange={handleChange}
-                checked={sidebarData.type === "sale"}
+                checked={sidebarData.type === "sell"}
               />
               <label htmlFor="sale">Sale</label>
             </div>

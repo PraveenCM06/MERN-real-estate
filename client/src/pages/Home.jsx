@@ -33,7 +33,7 @@ function Home() {
     }
     const fetchSaleListings = async()=>{
       try {
-        const response = await fetch(`/api/listing/get?type=sale&limit=6`);
+        const response = await fetch(`/api/listing/get?type=sell&limit=6`);
         const data = await response.json();
         setSaleListings(data);
       } catch (error) {
@@ -100,7 +100,7 @@ function Home() {
           <div className="">
               <div className="">
                 <h2 className='text-xl font-semibold text-slate-700'>Properties for Sale</h2>
-                <Link to={'/search?type=sale'} className='text-xs text-blue-600'>show properties for sale</Link>
+                <Link to={'/search?type=sell'} className='text-xs text-blue-600'>show properties for sale</Link>
               </div>
               <div className="flex flex-wrap gap-4">
                 {saleListings.map((listing)=>(
