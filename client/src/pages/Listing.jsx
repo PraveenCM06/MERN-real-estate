@@ -66,15 +66,6 @@ function Listing() {
         <Swiper navigation>
             {listing.imageURLs.map((url)=>(
               <SwiperSlide key={url}>
-              {/* <div 
-                className="w-full h-[500px]"
-                style={{
-                  backgroundImage: `url(${url})`,
-                  backgroundSize: 'cover',
-                  backgroundRepeat: 'no-repeat',
-                  backgroundPosition: 'center',
-                }}
-                ></div> */}
                 <img src={url} alt="image" className='w-full h-[300px] sm:h-[600px]'/>
             </SwiperSlide>
             ))}
