@@ -4,7 +4,8 @@ import dotenv from 'dotenv';
 import userRouter from './routes/user.route.js';
 import authRouter from './routes/auth.route.js';
 import cookieParser from 'cookie-parser';
-import listingRouter from './routes/listing.route.js'
+import listingRouter from './routes/listing.route.js';
+import path from 'path';
 dotenv.config();
 mongoose.connect(process.env.MONGO).then(()=>{
     console.log("Connected to Mongo DB");
@@ -12,6 +13,9 @@ mongoose.connect(process.env.MONGO).then(()=>{
     console.log(error);
     console.error("BAD AUTHENTICATION!!");
 })
+
+const __dirname = path.resolve();
+
 const port =3000;
 
 const app = express();
@@ -28,6 +32,13 @@ app.use('/api/user', userRouter);
 //if url has  /auth after api  then it will use the middleware of authRouter
 app.use('/api/auth', authRouter);
 app.use('/api/listing', listingRouter);
+
+
+app.use(express.static(path.join(__dirname, '/client/dist')));
+
+app.get('*', (req,res)=>{
+    res.sendFile(path.join(__dirname, 'client', 'dist','index.html'));
+});
 
 //creating middleware for exception handling for multiple routes, 
 //This is Good way instead of writing try catch block everywhere
