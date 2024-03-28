@@ -283,7 +283,7 @@ function CreateListing() {
             </div>
             <div className="flex gap-2">
               <input
-                required
+                
                 type="checkbox"
                 id="parking"
                 className="w-5 hover:cursor-pointer"
@@ -296,7 +296,7 @@ function CreateListing() {
             </div>
             <div className="flex gap-2">
               <input
-                required
+                
                 type="checkbox"
                 id="furnished"
                 className="w-5 hover:cursor-pointer"
