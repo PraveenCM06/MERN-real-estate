@@ -20,8 +20,8 @@ function Profile() {
   const [formData, setFormData] = useState({});
   const dispatch = useDispatch();
   const toaster = new ToasterUi();
-const [showListingError, setShowListingError] = useState(false);
-const [userListings, setUserListings] = useState([]);
+  const [showListingError, setShowListingError] = useState(false);
+  const [userListings, setUserListings] = useState([]);
 
   useEffect(() => {
     if (file) {
@@ -86,6 +86,8 @@ const [userListings, setUserListings] = useState([]);
 
   const handleDeleteUser = async ()=>{
     try {
+        const promptInput= prompt('Are you sure? please type yes below','');
+        if(promptInput==='yes'){
         dispatch(deleteUserStart());
         const configuration = {
           method: "DELETE"
@@ -97,6 +99,8 @@ const [userListings, setUserListings] = useState([]);
           return;
         }
         dispatch(deleteUserSuccess(data));
+        toaster.addToast("Account deleted", "failure", { duration: 3000 });
+      }
     } catch (error) {
       dispatch(deleteUserFailure(error.message));
     }
@@ -146,7 +150,7 @@ const [userListings, setUserListings] = useState([]);
     } catch (error) {
       console.log(error.message);
     }
-  }
+  };
   return (
     <div className="p-3 max-w-lg mx-auto">
       <h1 className="text-3xl font-semibold text-center my-7">Profile</h1>
