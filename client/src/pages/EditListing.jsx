@@ -402,7 +402,7 @@ function CreateListing() {
             ))
           }
           <button disabled={loading || uploading} className="tracking-wider p-3 bg-blue-950 text-white rounded-lg uppercase hover:opacity-95 disabled:opacity-60">
-            {loading? 'creating..':'update listing'}
+            {loading? 'Updating...':'update listing'}
           </button>
           {error && <p className="text-red-700 text-sm">{error}</p>}
         </div>

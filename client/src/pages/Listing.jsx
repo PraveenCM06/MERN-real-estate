@@ -99,7 +99,7 @@ function Listing() {
           <div className='flex flex-col max-w-4xl mx-auto p-3 my-3 gap-4'>
             <h1 className='text-3xl font-semibold'>
               {listing.name} - ₹
-              {listing.askingPrice}
+              {listing.askingPrice.toLocaleString('en-IN')}
               {listing.type === 'rent' && '/month'} 
             </h1>
             <p className='flex items-center mt-5 gap-2 text-slate-600  text-sm'>
