@@ -5,6 +5,7 @@ import 'swiper/css/bundle';
 import SwiperCore from 'swiper';
 import { Navigation } from 'swiper/modules';
 import ListingCard from '../components/ListingCard';
+import hero from '../assets/hero.jpg'
 function Home() {
   const [allListings, setAlllistings]=useState([]);
   const [saleListings, setSaleListings] = useState([]);
@@ -45,7 +46,7 @@ function Home() {
   return (
     <div>
       {/* section 1 */}
-      <div style={{background:'url(https://img.freepik.com/free-photo/perspective-exterior-nobody-empty-box_1258-260.jpg?w=996&t=st=1711637514~exp=1711638114~hmac=f2c6ff9c0c35908548e9509542f15bacf5697983214d9357619975cd5d53c1ba) no-repeat' , backgroundSize:'cover', backgroundPosition:'center'}} className="flex flex-col gap-4 sm:gap-6 py-16 sm:py-20 md:py-28 px-5 sm:px-14 md:px-20 mx-auto">
+      <div style={{background:`url(${hero}) no-repeat` , backgroundSize:'cover', backgroundPosition:'center', objectFit:'cover'}} className="flex flex-col gap-4 sm:gap-6 py-16 sm:py-20 md:py-28 px-5 sm:px-14 md:px-20 mx-auto">
         <h1 className='text-slate-600 text-3xl sm:text-4xl lg:text-6xl font-bold'>Find your next <span className='text-slate-800 whitespace-nowrap font-bold'>perfect home</span> <br /> with ease </h1>
         <div className="text-gray-500 text-xs sm:text-sm">
             we will help your home finding journey a lot more easier, faster and comfortable <br /> with our wide range of properties to choose from.

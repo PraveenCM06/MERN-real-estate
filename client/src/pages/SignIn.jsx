@@ -40,6 +40,11 @@ function SignIn() {
   return (
     <div className='px-7 max-w-lg mx-auto'>
       <h1 className='font-mono text-3xl text-center font-semibold my-7'>SIGN IN</h1>
+      <div className='text-center font-medium text-sm bg-red-200 my-4 p-3 rounded-lg border border-red-600'>
+        <p>Please use below credentials for testing purpose</p>
+        <p>email: user@gmail.com</p>
+        <p>password: 123user</p>
+      </div>
     <form onSubmit={handleSubmit} className='flex flex-col gap-4'>
       <input 
         type="email" 

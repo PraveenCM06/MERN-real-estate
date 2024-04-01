@@ -95,8 +95,9 @@ function Listing() {
             </h1>
             <p className='flex items-center mt-5 gap-2 text-slate-600  text-sm'>
               <FaMapMarkerAlt className='text-red-700' />
-              {listing.address}
+              {listing.address} {listing.city}.
             </p>
+            
             <div className='flex gap-4'>
               <p className='bg-green-900 w-full max-w-[200px] text-white text-center p-2 rounded-md font-semibold'>
                 {listing.type === 'rent' ? 'Available For Rent' : 'Available For Sale'}
@@ -124,6 +125,7 @@ function Listing() {
                 {listing.furnished ? 'Furnished': 'Unfurnished'}
               </li>
             </ul>
+            {!currentUser && <p className='text-red-500 font-semibold'>Please Sign in to chat with Landord</p>}
             {currentUser && listing.userRef !== currentUser._id && !contact &&(
               <button onClick={()=>setContact(true)} className='bg-blue-950 text-white rounded-lg uppercase p-3 hover:opacity-90 active:translate-y-0.5'>Contact landlord</button>
             )}

@@ -15,7 +15,7 @@ function ListingCard({ listing }) {
           </p>
           <div className="flex items-center">
             <MdLocationOn className="text-red-700 h-4 w-4" />
-            <p className="text-md text-gray-500 truncate">{listing.address}</p>
+            <p className="text-md text-gray-500 truncate">{listing.address}, {listing.city}.</p>
           </div>
           <p className="line-clamp-2 text-sm text-gray-500">
             {listing.description}

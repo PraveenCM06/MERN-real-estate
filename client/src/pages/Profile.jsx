@@ -106,6 +106,10 @@ function Profile() {
     }
   };
 
+  const handleDeleteUserDummy = ()=>{
+    toaster.addToast("Delete User is Disabled Currently", "failure", { duration: 4000 });
+  }
+
   const handleSignOut = async ()=>{
     try {
       dispatch(signOutUserStart());
@@ -212,7 +216,7 @@ function Profile() {
         <Link to="/create-listing" className="bg-green-900 text-white p-3 rounded-lg text-center uppercase hover:opacity-90">Create listing</Link>
       </form>
       <div className="flex justify-between mt-5">
-        <span onClick={handleDeleteUser} className="text-red-700 cursor-pointer font-semibold">
+        <span onClick={handleDeleteUserDummy} className="text-red-700 cursor-pointer font-semibold">
           Delete Account
         </span>
         <span onClick={handleSignOut} className="text-red-700 cursor-pointer font-semibold">
@@ -220,7 +224,7 @@ function Profile() {
         </span>
       </div>
       <p className="text-red-700 mt-5">{error? error : ""}</p>
-      <button className="text-green-700 w-full" onClick={handleShowListings}>Show Listings</button>
+      <button className="text-green-700 w-full bg-green-200 rounded-lg p-3 font-semibold border hover:border-green-700 my-2" onClick={handleShowListings}>Show Listings</button>
       <p className="text-red-700 mt-5">{showListingError? 'Error Showing listings':''}</p>
 
       {
