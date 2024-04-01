@@ -3,11 +3,14 @@ import {Link, useNavigate} from 'react-router-dom';
 import {useDispatch, useSelector} from 'react-redux';
 import {signInStart, signInSuccess, signInFailure} from '../redux/user/userSlice.js';
 import OAuth from '../components/OAuth.jsx';
+import ToasterUi from 'toaster-ui';
 function SignIn() {
   const [formData, setFormData] = useState({});
   const {loading, error}= useSelector((state)=>state.user);
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const toaster = new ToasterUi();
+
   const handleChange = (e)=>{
     setFormData({
       ...formData,
@@ -30,7 +33,7 @@ function SignIn() {
         return;
       }
       dispatch(signInSuccess(data));
-      alert("Sign in Successful");
+      toaster.addToast("Sign in Successful", "success", { duration: 4000 });
       navigate('/');
     } catch (error) {
       dispatch(signInFailure(error.message));

@@ -107,7 +107,7 @@ function Profile() {
   };
 
   const handleDeleteUserDummy = ()=>{
-    toaster.addToast("Delete User is Disabled Currently", "failure", { duration: 4000 });
+    toaster.addToast("This feature is Disabled Currently", "failure", { duration: 4000 });
   }
 
   const handleSignOut = async ()=>{
@@ -208,7 +208,7 @@ function Profile() {
           placeholder="password"
           id="password"
           className="border p-3 rounded-lg"
-          onChange={handleChange}
+          // onChange={handleChange}
         />
         <button disabled={loading} className="bg-slate-700 text-white rounded-lg p-3 uppercase hover:opacity-95 disabled:opacity-50">
           {loading? 'Loading..': "Update"}
@@ -241,7 +241,7 @@ function Profile() {
                 <p>{listing.name}</p>
               </Link>
               <div className="flex flex-col gap-1">
-                <button onClick={()=>handleListingDelete(listing._id)} className="text-red-700 uppercase text-sm hover:bg-red-700 hover:text-white p-2 rounded-lg font-semibold">Delete</button>
+                <button /*onClick={()=>handleListingDelete(listing._id)}*/ onClick={handleDeleteUserDummy}  className="text-red-700 uppercase text-sm hover:bg-red-700 hover:text-white p-2 rounded-lg font-semibold">Delete</button>
                 <Link to={`/edit-listing/${listing._id}`}>
                 <button className="text-blue-950 uppercase text-sm hover:bg-blue-950 hover:text-white p-2 rounded-lg font-semibold">Edit</button>
                 </Link>
